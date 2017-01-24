@@ -1,14 +1,14 @@
 angular.module('starter')
     .controller('loginCtrl', loginCtrl);
 
-function loginCtrl($state, firebaseService, $localForage, $timeout, loggedInUserService, friendsService) {
+function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser, friendsService) {
 
     /* Check User LoggedIn or Not */
 
 
     $localForage.getItem('loggedInUser').then(function(data){
         if(data!=null) {
-            loggedInUserService.info = data;
+            currentUser.info = data;
             
             $localForage.getItem('friendsList').then(function (data) {
                 friendsService.friendsList = data;
@@ -36,8 +36,18 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, loggedInUser
 
             function success(data) {
 
+                // /* check email verified or Not */
+                // if(data.emailVerified == false){
+                //     var user = firebase.auth().currentUser;
+                //     user.sendEmailVerification().then(function() {
+                //         console.log('email varification is send!')
+                //     }, function(error) {
+                //         console.log('Email varification failed!')
+                //     });
+                // }
+                
                 var firstName = login.usersArray.$getRecord(data.uid).firstName;
-                console.log(login.usersArray.$getRecord(data.uid).firstName);
+
                 var lastName = login.usersArray.$getRecord(data.uid).lastName;
 
                 $localForage.setItem('loggedInUser',{
@@ -47,7 +57,7 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, loggedInUser
                     userId: data.uid,
                 });
 
-                loggedInUserService.info = {
+                currentUser.info = {
                     firstName : firstName,
                     lastName : lastName,
                     email: data.email,

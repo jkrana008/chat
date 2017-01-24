@@ -1,7 +1,7 @@
 angular.module('starter')
     .controller('signupCtrl', signupCtrl);
 
-function signupCtrl($state, firebaseService, $localForage, $timeout, loggedInUserService, friendsService) {
+function signupCtrl($state, firebaseService, $localForage, $timeout, currentUser, friendsService) {
 
     var signup = this;
 
@@ -34,6 +34,13 @@ function signupCtrl($state, firebaseService, $localForage, $timeout, loggedInUse
                     displayName: firstName + ' ' + lastName,
                 });
 
+                /* Email Varification */
+                user.sendEmailVerification().then(function() {
+                    console.log('email varification is send!')
+                }, function(error) {
+                    console.log('Email varification failed!')
+                });
+
 
                 /* Save User Data Locally */
                 $localForage.setItem('loggedInUser',{
@@ -44,7 +51,7 @@ function signupCtrl($state, firebaseService, $localForage, $timeout, loggedInUse
                 });
 
                 /* Save User Data into Service */
-                loggedInUserService.info={
+                currentUser.info={
                     firstName : firstName,
                     lastName : lastName,
                     email: data.email,

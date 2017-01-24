@@ -1,9 +1,9 @@
 angular.module('starter.services', [])
-    .service('loggedInUserService', loggedInUserService)
+    .service('currentUser', currentUser)
     .service('firebaseService', firebaseService)
     .service('friendsService', friendsService);
 
-function loggedInUserService(){
+function currentUser(){
   return {}
 }
 

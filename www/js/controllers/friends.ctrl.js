@@ -1,12 +1,12 @@
 angular.module('starter')
     .controller('friendsCtrl', friendsCtrl);
 
-function friendsCtrl($state, loggedInUserService, firebaseService, $localForage, friendsService, $interval){
+function friendsCtrl($state, currentUser, firebaseService, $localForage, friendsService, $interval){
     
     var friends = this;
 
     friends.usersArray = firebaseService.usersArray;
-    friends.user = loggedInUserService.info;
+    friends.user = currentUser.info;
     friends.friendsList = friendsService.friendsList;
 
     $interval(function () {

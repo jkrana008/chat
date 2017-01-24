@@ -1,10 +1,22 @@
 <ion-view view-title="Account">
   <ion-content>
       <div class="list">
-        <a class="item item-icon-right" style="cursor: pointer" ng-click="account.signOut()">
-          Signout
-          <i class="icon ion-log-out"></i>
-        </a>
+          <div class="item item-thumbnail-left" href="#">
+              <img src="../img/default.png">
+              <h2>{{account.user.firstName + ' ' + account.user.lastName}}</h2>
+              <p>
+                  {{account.user.email}}
+                  <span ng-if="account.verified" class="balanced ion-checkmark-circled"> Verified</span>
+                  <span ng-if="!account.verified" class="assertive ion-alert-circled" ng-click="account.verify()" style="cursor: pointer"> Verify now</span>
+              </p>
+          </div>
       </div>
+      <div class="list">
+          <a class="item item-icon-right" style="cursor: pointer" ng-click="account.signOut()">
+            Signout
+            <i class="icon ion-log-out"></i>
+          </a>
+      </div>
+
   </ion-content>
 </ion-view>

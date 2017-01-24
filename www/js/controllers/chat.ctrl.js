@@ -1,13 +1,13 @@
 angular.module('starter')
     .controller('chatCtrl', chatCtrl);
 
-function chatCtrl($scope, $stateParams, loggedInUserService, firebaseService, $localForage) {
+function chatCtrl($scope, $stateParams, currentUser, firebaseService, $localForage) {
 
     var chat = this;
 
     chat.receiverName = $stateParams.name;
     chat.receiverID = $stateParams.id;
-    chat.senderID = loggedInUserService.info.userId;
+    chat.senderID = currentUser.info.userId;
     chat.chatsArray = firebaseService.chatsArray;
 
     chat.sendMessage = sendMessage;

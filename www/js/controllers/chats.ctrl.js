@@ -1,10 +1,10 @@
 angular.module('starter')
     .controller('chatsCtrl', chatsCtrl);
 
-function chatsCtrl(firebaseService, loggedInUserService, $state){
+function chatsCtrl(firebaseService, currentUser, $state){
     var chats = this;
 
-    chats.user = loggedInUserService.info;
+    chats.user = currentUser.info;
     chats.usersArray = firebaseService.usersArray;
     chats.chatsArray = firebaseService.chatsArray;
     chats.chatFriends = [];
