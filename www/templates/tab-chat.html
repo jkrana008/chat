@@ -1,0 +1,29 @@
+<ion-view view-title="{{chat.receiverName}}">
+    <ion-content style="padding: 5px">
+        <div class="list" style="padding:0;">
+            <div class="item" ng-repeat="msg in chat.chatArray" style="border:none; padding:0; margin:0">
+                <div  class="card item item-text-wrap positive" style="width:auto; max-width: 80%; float:right; margin: 10px 0 0 0; border-radius: 15px" ng-if="msg.senderID == chat.senderID">
+                    <span style="font-size: 14px;">{{msg.text}}</span>
+                    <br>
+                    <span style="font-size: 10px">{{msg.time |timeFilter| date:'medium'}}</span>
+                </div>
+                <div class="card item item-text-wrap balanced" style="margin: 10px 0 0 0; width:auto; max-width: 80%; float:left; border-radius: 15px" ng-if="msg.receiverID === chat.senderID && msg.receiverID != msg.senderID">
+                    <span style="font-size: 14px">{{msg.text}}</span>
+                    <br>
+                    <span style="font-size: 10px">{{msg.time |timeFilter| date:'medium'}}</span>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="list row" style="clear:both">
+            <hr>
+            <div class="col-75 item item-input">
+                <input type="text" placeholder="Type message here" ng-model="chat.message">
+            </div>
+            <div class="col-25 item item-button-right">
+                <button class="button button-positive" ng-click="chat.sendMessage(chat.message)">Send</button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

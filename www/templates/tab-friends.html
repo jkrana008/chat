@@ -1,0 +1,9 @@
+<ion-view view-title="{{friends.user.firstName + ' ' + friends.user.lastName}}">
+    <ion-content>
+        <ul class="list">
+            <li class="item" ng-repeat="user in friends.friendsList" ng-click="friends.chat(user.firstName, user.lastName, user.uid)">
+                {{user.firstName + ' ' + user.lastName}}
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>

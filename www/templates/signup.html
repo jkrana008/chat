@@ -1,0 +1,67 @@
+<ion-view view-title="Signup">
+    <ion-content class="padding">
+        <hr>
+        <h4 class="text-center">Youstart Chat</h4>
+        <hr>
+        <br>
+        <div class="list">
+            <form name="signUpForm" ng-submit="!signUpForm.$valid || signup.signUp(signup.firstName, signup.lastName, signup.email, signup.password)">
+
+                <label class="item item-input">
+                    <input type="text" placeholder="First Name *" ng-model="signup.firstName" name="firstName" ng-required="true"
+                           ng-pattern="/^[a-zA-z]*$/" ng-click="signup.submit = false">
+                </label>
+
+                <div ng-messages="signUpForm.firstName.$error" ng-if="signUpForm.firstName.$error && signup.submit" role="alert" class="assertive">
+                    <span ng-message="required">First name is required!</span>
+                    <span ng-message="pattern">First name contains only characters!</span>
+                </div>
+                <br>
+
+                <label class="item item-input">
+                    <input type="text" placeholder="Last Name *" ng-model="signup.lastName" name="lastName" ng-required="true"
+                        ng-pattern="/^[a-zA-Z\s]*$/" ng-click="signup.submit = false">
+                </label>
+
+                <div class="assertive" ng-messages="signUpForm.lastName.$error" ng-if="signUpForm.lastName.$error && signup.submit" role="alert">
+                    <span ng-message="required">Last name is required!</span>
+                    <span ng-message="pattern">Last name contains characters and white spaces only!</span>
+                </div>
+                <br>
+
+                <label class="item item-input">
+                    <input type="email" placeholder="Email *" ng-model="signup.email" ng-required="true" ng-click="signup.submit = false" ng-click="signup.submit = false"
+                           ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" name="email">
+                </label>
+
+                <div ng-messages="signUpForm.email.$error" ng-if="signUpForm.email.$error && signup.submit" class="assertive" role="alert">
+                    <span ng-message="required">Email is required!</span>
+                    <span ng-message="pattern">Email is not valid!</span>
+                </div>
+                <br>
+
+                <label class="item item-input">
+                    <input type="password" placeholder="Password *" ng-model="signup.password" ng-required="true" ng-click="signup.submit = false" ng-click="signup.submit = false"
+                    ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/" ng-minlength="6" ng-maxlength="64" name="password">
+                </label>
+
+                <div ng-messages="signUpForm.password.$error" ng-if="signUpForm.password.$error && signup.submit" role="alert" class="assertive">
+                    <span ng-message="required">Password is required!</span>
+                    <span ng-message="minlength">Password is too short!</span>
+                    <span ng-message="maxlength">Password is too long!</span>
+                    <span ng-message="pattern">Password should be at least 6 characters long
+                    and should contain one number, one character and one special
+                    character</span>
+                </div>
+
+                <button type="submit" class="button button-block button-positive" ng-click="signup.submit = true">Signup</button>
+
+            </form>
+        </div>
+        <hr>
+        <br>
+
+        <p class="text-center">Already have an account please : <a href="#/login">Login</a></p>
+
+    </ion-content>
+</ion-view>

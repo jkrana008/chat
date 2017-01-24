@@ -6,3 +6,6 @@ platforms/
 plugins/
 .idea/
 .editorconfig
+resources/
+www/lib/
+res/

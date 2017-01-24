@@ -1,0 +1,35 @@
+<ion-view view-title="Login">
+    <ion-content class="padding">
+        <hr>
+        <h4 class="text-center">Youstart Chat</h4>
+        <hr>
+        <br>
+        <div class="list">
+            <form name="loginForm" role="form" novalidate ng-submit="!loginForm.$valid||login.logIn(login.email, login.password)">
+                <label class="item item-input">
+                    <input type="email" placeholder="Email *" ng-model="login.email" name="email" ng-required="true" ng-click="login.submit = false"
+                           ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i">
+                </label>
+                <div ng-messages="loginForm.email.$error" ng-if="loginForm.email.$error && login.submit" class="assertive" role="alert">
+                    <span ng-message="required">Email is required!</span>
+                    <span ng-message="pattern">Email is not valid!</span>
+                </div>
+                <br>
+                <label class="item item-input">
+                    <input type="password" placeholder="Password *" ng-model="login.password" ng-required="true" name="password"
+                           ng-click="login.submit = false" ng-minlength="6" ng-maxlength="64">
+                </label>
+                <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$error && login.submit" class="assertive" role="alert">
+                    <span ng-message="required">Password is required!</span>
+                    <span ng-message="minlength">Password too short!</span>
+                    <span ng-message="maxlength">Password too long!</span>
+                </div>
+                <button type="submit" class="button button-block button-positive" ng-click="login.submit = true">Login</button>
+            </form>
+        </div>
+        <hr>
+        <br>
+        <p class="text-center"><a href="#/signup">Create an account</a></p>
+
+    </ion-content>
+</ion-view>
