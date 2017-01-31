@@ -1,33 +1,24 @@
 angular.module('starter')
     .controller('friendsCtrl', friendsCtrl);
 
-function friendsCtrl($state, currentUser, firebaseService, $localForage, friendsService, $interval){
-    
+function friendsCtrl($state, currentUser, firebaseService, $localForage, $interval, $rootScope, $scope){
+
+    if(window.cordova){
+        FCMPlugin.onNotification(function(data){
+            if(data.wasTapped){
+                //Notification was received on device tray and tapped by the user.
+                alert( JSON.stringify(data) );
+            }else{
+                //Notification was received in foreground. Maybe the user needs to be notified.
+                alert( JSON.stringify(data) );
+            }
+        });
+    }
+
     var friends = this;
 
-    friends.usersArray = firebaseService.usersArray;
     friends.user = currentUser.info;
-    friends.friendsList = friendsService.friendsList;
-
-    $interval(function () {
-        friends.usersArray.$loaded()
-            .then(function(){
-                angular.forEach(friends.usersArray, function(user){
-                    var bool = false;
-                    if(user.uid != friends.user.userId) {
-                        angular.forEach(friends.friendsList, function (friendsList) {
-                            if (user.uid == friendsList.uid) {
-                                bool = true;
-                            }
-                        })
-                        if (!bool) {
-                            friends.friendsList.push(user);
-                            $localForage.setItem('friendsList', friends.friendsList);
-                        }
-                    }
-                })
-            });
-    },10000);
+    friends.friendsList = firebaseService.usersArray;
 
     friends.chat = chat;
 

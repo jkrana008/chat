@@ -1,16 +1,11 @@
 <ion-view view-title="{{friends.user.firstName + ' ' + friends.user.lastName}}">
     <ion-content>
         <div class="list">
-            <a class="item item-avatar" href="#" ng-repeat="user in friends.friendsList" ng-click="friends.chat(user.firstName, user.lastName, user.uid)">
-                <img src="../img/default.png">
+            <a class="item item-avatar" ng-repeat="user in friends.friendsList | friendsFilter : friends.user.userId track by $index" ng-click="friends.chat(user.firstName, user.lastName, user.userId)">
+                <img src="img/default.png">
                 <h2>{{user.firstName + ' ' + user.lastName}}</h2>
-                <p>Hi i am using youstart chat now!</p>
+                <p>{{user.status}}</p>
             </a>
         </div>
-        <!--<ul class="list">-->
-            <!--<li class="item" ng-repeat="user in friends.friendsList" ng-click="friends.chat(user.firstName, user.lastName, user.uid)">-->
-                <!--{{user.firstName + ' ' + user.lastName}}-->
-            <!--</li>-->
-        <!--</ul>-->
     </ion-content>
 </ion-view>

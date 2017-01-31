@@ -1,10 +1,10 @@
 <ion-view view-title="Chats">
     <ion-content>
         <div class="list">
-            <a class="item item-avatar" href="#" ng-repeat="friend in chats.chatFriends track by $index" ng-click="chats.chat(friend.firstName, friend.lastName, friend.uid)">
-                <img src="../img/default.png">
+            <a class="item item-avatar" ng-repeat="friend in chats.chatFriends track by $index" ng-click="chats.chat(friend.firstName, friend.lastName, friend.userId)">
+                <img src="img/default.png">
                 <h2>{{friend.firstName + ' ' + friend.lastName}}</h2>
-                <p>Hi i am using youstart chat now!</p>
+                <p>{{friends.status}}</p>
             </a>
         </div>
     </ion-content>

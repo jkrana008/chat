@@ -1,22 +1,110 @@
 <ion-view view-title="Account">
   <ion-content>
       <div class="list">
-          <div class="item item-thumbnail-left" href="#">
-              <img src="../img/default.png">
-              <h2>{{account.user.firstName + ' ' + account.user.lastName}}</h2>
+          <div class="item item-thumbnail-left">
+              <img src="img/default.png">
+              <h2>{{ac.user.firstName + ' ' + ac.user.lastName}}</h2>
               <p>
-                  {{account.user.email}}
-                  <span ng-if="account.verified" class="balanced ion-checkmark-circled"> Verified</span>
-                  <span ng-if="!account.verified" class="assertive ion-alert-circled" ng-click="account.verify()" style="cursor: pointer"> Verify now</span>
+                  {{ac.user.email}}
+                  <span ng-if="ac.verified" class="balanced ion-checkmark-circled"> Verified</span>
+                  <span ng-if="!ac.verified" class="assertive ion-alert-circled" ng-click="ac.verify()" style="cursor: pointer"> Verify now</span>
               </p>
           </div>
       </div>
       <div class="list">
-          <a class="item item-icon-right" style="cursor: pointer" ng-click="account.signOut()">
+          <a class="item item-icon-right" style="cursor: pointer" ng-click="ac.changeEmailModal.show()">
+              Change Email
+              <i class="icon ion-email"></i>
+          </a>
+          <a class="item item-icon-right" style="cursor: pointer" ng-click="ac.changePasswordModal.show()">
+              Change Password
+              <i class="icon ion-key"></i>
+          </a>
+          <a class="item item-icon-right" style="cursor: pointer" ng-click="ac.signOut()">
             Signout
             <i class="icon ion-log-out"></i>
           </a>
+
       </div>
 
+      <!--Email Changed Modal-->
+      <script id="change-email.html" type="text/ng-template">
+          <ion-modal-view>
+              <ion-header-bar>
+                  <h1 class="title">Change Email</h1>
+              </ion-header-bar>
+              <ion-content class="padding">
+                 <form name="emailChangeForm" novalidate ng-submit="!emailChangeForm.$valid || ac.changeEmail(ac.changeEmail.email)">
+                     <div class="list">
+                         <label class="item item-input">
+                             <input type="email" placeholder="Email*" ng-model="ac.changeEmail.email" name="email" required
+                                    ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i">
+                         </label>
+                         <div ng-messages="emailChangeForm.email.$error" ng-if="emailChangeForm.email.$error && ac.submit" class="assertive" role="alert">
+                             <span ng-message="required">Email is required!</span>
+                             <span ng-message="pattern">Email is not valid!</span>
+                         </div>
+
+                         <label class="item item-input">
+                             <input type="email" placeholder="Confirm email*" ng-model="ac.changeEmail.confirm" name="confirm"  required
+                                    ng-pattern="{{ac.changeEmail.email}}">
+                         </label>
+                         <div ng-messages="emailChangeForm.confirm.$error" ng-if="emailChangeForm.confirm.$error && ac.submit" class="assertive" role="alert">
+                             <span ng-message="required">Confirm email is required!</span>
+                             <span ng-message="pattern">Confirm email is not matched !</span>
+                         </div>
+
+                         <div class="item">
+                             <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Email</button>
+                             <br>
+                             <button type="button" class="button button-block" ng-click="ac.changeEmailModal.hide();">Cancel</button>
+                         </div>
+                     </div>
+                 </form>
+              </ion-content>
+          </ion-modal-view>
+      </script>
+
+      <!--Password Changed Modal-->
+      <script id="change-password.html" type="text/ng-template">
+          <ion-modal-view>
+              <ion-header-bar>
+                  <h1 class="title">Change password</h1>
+              </ion-header-bar>
+              <ion-content class="padding">
+                  <form name="passwordChangeForm" novalidate ng-submit="!passwordChangeForm.$valid || ac.changePassword(ac.changePassword.password)">
+                      <div class="list">
+                          <label class="item item-input">
+                              <input type="password" placeholder="Password*" ng-model="ac.changePassword.password" name="password" required
+                                     ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/" ng-minlength="6" ng-maxlength="64">
+                          </label>
+                          <div ng-messages="passwordChangeForm.password.$error" ng-if="passwordChangeForm.password.$error && ac.submit" class="assertive" role="alert">
+                              <span ng-message="required">Password is required!</span>
+                              <span ng-message="minlength">Password is too short!</span>
+                              <span ng-message="maxlength">Password is too long!</span>
+                              <span ng-message="pattern">Password should be at least 6 characters long
+                                and should contain one number, one character and one special
+                                character</span>
+                          </div>
+
+                          <label class="item item-input">
+                              <input type="password" placeholder="Confirm password*" ng-model="ac.changePassword.confirm" name="confirm"  required
+                                     ng-pattern="{{ac.changePassword.password}}">
+                          </label>
+                          <div ng-messages="passwordChangeForm.confirm.$error" ng-if="passwordChangeForm.confirm.$error && ac.submit" class="assertive" role="alert">
+                              <span ng-message="required">Confirm password is required!</span>
+                              <span ng-message="pattern">Confirm password is not matched !</span>
+                          </div>
+
+                          <div class="item">
+                              <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Password</button>
+                              <br>
+                              <button type="button" class="button button-block" ng-click="ac.changePasswordModal.hide();">Cancel</button>
+                          </div>
+                      </div>
+                  </form>
+              </ion-content>
+          </ion-modal-view>
+      </script>
   </ion-content>
 </ion-view>

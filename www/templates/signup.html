@@ -1,5 +1,5 @@
 <ion-view view-title="Signup">
-    <ion-content class="padding">
+    <ion-content class="padding has-header">
         <hr>
         <div class="text-center">
             <img src="img/youstart.png">
@@ -43,8 +43,8 @@
                 <br>
 
                 <label class="item item-input">
-                    <input type="password" placeholder="Password *" ng-model="signup.password" ng-required="true" ng-click="signup.submit = false" ng-click="signup.submit = false"
-                    ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/" ng-minlength="6" ng-maxlength="64" name="password">
+                    <input type="password" placeholder="Password *" ng-model="signup.password" ng-required="true" ng-click="signup.submit = false"
+                    ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/" ng-minlength="6" ng-maxlength="64" name="password">
                 </label>
 
                 <div ng-messages="signUpForm.password.$error" ng-if="signUpForm.password.$error && signup.submit" role="alert" class="assertive">

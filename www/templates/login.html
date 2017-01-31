@@ -1,5 +1,5 @@
 <ion-view view-title="Login">
-    <ion-content class="padding">
+    <ion-content class="padding has-header">
         <hr>
         <div class="text-center">
             <img src="img/youstart.png">
@@ -7,26 +7,27 @@
         <hr>
         <br>
         <div class="list">
-            <form name="loginForm" role="form" novalidate ng-submit="!loginForm.$valid||login.logIn(login.email, login.password)">
+            <form name="loginForm" role="form" novalidate ng-submit="!loginForm.$valid || lc.logIn(lc.email, lc.password)">
                 <label class="item item-input">
-                    <input type="email" placeholder="Email *" ng-model="login.email" name="email" ng-required="true" ng-click="login.submit = false"
+                    <input type="email" placeholder="Email *" ng-model="lc.email" name="email" ng-required="true" ng-click="lc.submit = false"
                            ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i">
                 </label>
-                <div ng-messages="loginForm.email.$error" ng-if="loginForm.email.$error && login.submit" class="assertive" role="alert">
+                <div ng-messages="loginForm.email.$error" ng-if="loginForm.email.$error && lc.submit" class="assertive" role="alert">
                     <span ng-message="required">Email is required!</span>
                     <span ng-message="pattern">Email is not valid!</span>
                 </div>
                 <br>
                 <label class="item item-input">
-                    <input type="password" placeholder="Password *" ng-model="login.password" ng-required="true" name="password"
-                           ng-click="login.submit = false" ng-minlength="6" ng-maxlength="64">
+                    <input type="password" placeholder="Password *" ng-model="lc.password" ng-required="true" name="password"
+                           ng-click="lc.submit = false" ng-minlength="6" ng-maxlength="64">
                 </label>
-                <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$error && login.submit" class="assertive" role="alert">
+                <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$error && lc.submit" class="assertive" role="alert">
                     <span ng-message="required">Password is required!</span>
                     <span ng-message="minlength">Password too short!</span>
                     <span ng-message="maxlength">Password too long!</span>
                 </div>
-                <button type="submit" class="button button-block button-positive" ng-click="login.submit = true">Login</button>
+                <button type="submit" class="button button-block button-positive" ng-click="lc.submit = true">Login</button>
+                <p class="text-right"><a ng-click="lc.resetPassword()" style="cursor: pointer">Forgot password?</a></p>
             </form>
         </div>
         <hr>

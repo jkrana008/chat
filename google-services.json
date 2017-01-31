@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "535469383579",
+    "firebase_url": "https://youstart-chat.firebaseio.com",
+    "project_id": "youstart-chat",
+    "storage_bucket": "youstart-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535469383579:android:c7d43237581ba0c7",
+        "android_client_info": {
+          "package_name": "com.youstart.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535469383579-7hmskr4oovlkapv30gckjoui5620vvut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADityStFR6i4LlqFe5fppo7_0dlqnRLpw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

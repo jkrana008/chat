@@ -1,29 +1,39 @@
 <ion-view view-title="{{chat.receiverName}}">
-    <ion-content style="padding: 5px">
+    <ion-content style="padding: 10px" class="has-footer">
         <div class="list" style="padding:0;">
-            <div class="item" ng-repeat="msg in chat.chatArray" style="border:none; padding:0; margin:0">
-                <div  class="card item item-text-wrap positive" style="width:auto; max-width: 80%; float:right; margin: 10px 0 0 0; border-radius: 15px" ng-if="msg.senderID == chat.senderID">
-                    <span style="font-size: 14px;">{{msg.text}}</span>
-                    <br>
-                    <span style="font-size: 10px">{{msg.time |timeFilter| date:'medium'}}</span>
+            <div class="item" ng-repeat="msg in chat.chatsArray | chatFilter:chat.senderID:chat.receiverID track by $index" style="border:none; padding:0; margin:0">
+
+                <div  class="item-text-wrap" style="width:auto; max-width: 80%; float:right; border:none; padding:5px" ng-if="msg.senderID == chat.senderID">
+                    <p style="font-size: 10px;" class="text-right">
+                        {{msg.time |timeFilter| date:'mediumTime'}}
+                    </p>
+                    <p  class="item" style="font-size: 14px; color: #00529B; background-color: #BDE5F8; border-radius: 5px">
+                        {{msg.text}}
+                    </p>
                 </div>
-                <div class="card item item-text-wrap balanced" style="margin: 10px 0 0 0; width:auto; max-width: 80%; float:left; border-radius: 15px" ng-if="msg.receiverID === chat.senderID && msg.receiverID != msg.senderID">
-                    <span style="font-size: 14px">{{msg.text}}</span>
-                    <br>
-                    <span style="font-size: 10px">{{msg.time |timeFilter| date:'medium'}}</span>
+
+                <div class="item-text-wrap" style="width:auto; max-width: 80%; float:left; border:none; padding:5px" ng-if="msg.receiverID === chat.senderID && msg.receiverID != msg.senderID">
+                    <p style="font-size: 10px" class="text-left">
+                        {{msg.time |timeFilter| date:'mediumTime'}}
+                    </>
+                    <p class="item" style="font-size: 14px; color: #4F8A10; background-color: #DFF2BF; border-radius:5px">
+                        {{msg.text}}
+                    </p>
                 </div>
+
             </div>
         </div>
 
         <br>
-        <div class="list row" style="clear:both">
-            <hr>
-            <div class="col-75 item item-input">
-                <input type="text" placeholder="Type message here" ng-model="chat.message">
-            </div>
-            <div class="col-25 item item-button-right">
-                <button class="button button-positive" ng-click="chat.sendMessage(chat.message)">Send</button>
-            </div>
-        </div>
+
     </ion-content>
+
+    <ion-footer-bar>
+        <div class="bar bar-footer"  style="border-top:2px solid lightgrey; border-bottom:2px solid lightgrey; padding:0 10px 0 10px">
+            <input type="text" placeholder="Send a message...." class="item-input col-90" ng-model="chat.message" ng-keypress="$event.keyCode == 13 && chat.sendMessage(chat.message)">
+            <button type="button" class="button pull-right" ng-click="chat.sendMessage(chat.message)" style="margin: -5px 0 0 0; background: #fff;">
+                <i class="icon ion-android-send positive"></i>
+            </button>
+        </div>
+    </ion-footer-bar>
 </ion-view>

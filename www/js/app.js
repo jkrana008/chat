@@ -24,7 +24,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           cache: false,
           templateUrl : 'templates/login.html',
           controller : 'loginCtrl',
-          controllerAs : 'login',
+          controllerAs : 'lc',
       })
 
       // Signup State
@@ -99,7 +99,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         views: {
         'tab-account': {
             templateUrl: 'templates/tab-account.html',
-            controller: 'accountCtrl as account',
+            controller: 'accountCtrl as ac',
             },
         },
     });
