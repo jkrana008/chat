@@ -1,6 +1,6 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase', 'LocalForageModule','ngMessages'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $ionicLoading) {
 
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -12,10 +12,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       StatusBar.styleDefault();
     }
   });
+    $ionicLoading.show({
+        template: 'Loading...',
+        hideOnStateChange : true,
+    })
 })
 
 .config(function($stateProvider, $ionicConfigProvider, $urlRouterProvider) {
     $ionicConfigProvider.views.maxCache(0);
+    $ionicConfigProvider.navBar.alignTitle('left');
+    if( ionic.Platform.isAndroid() ) {
+        $ionicConfigProvider.scrolling.jsScrolling(false);
+    }
+    
   $stateProvider
 
       // Login State

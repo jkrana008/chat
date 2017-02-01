@@ -5,9 +5,11 @@ angular.module('starter')
 
 function friendsFilter() {
     return function(input,userId) {
-
         return input.filter(function(item){
-            if(item.uid != userId){
+            if(item.userId != userId){
+                return item;
+            }else {
+                item.lastName = '(You)';
                 return item;
             }
         })

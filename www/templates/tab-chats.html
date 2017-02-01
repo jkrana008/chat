@@ -1,11 +1,16 @@
 <ion-view view-title="Chats">
     <ion-content>
         <div class="list">
-            <a class="item item-avatar" ng-repeat="friend in chats.chatFriends track by $index" ng-click="chats.chat(friend.firstName, friend.lastName, friend.userId)">
+            <a class="item item-avatar" ng-repeat="friend in chats.chatFriends | friendsFilter : chats.user.userId track by $index" ng-click="chats.chat(friend.firstName, friend.lastName, friend.userId)">
                 <img src="img/default.png">
                 <h2>{{friend.firstName + ' ' + friend.lastName}}</h2>
                 <p>{{friends.status}}</p>
             </a>
+        </div>
+        <div class="card text-center"  ng-if="chats.chatFriends.length == 0" style="margin-top: 150px">
+            <hr>
+            <h3><a href="#/tab/friends" style="text-decoration: none">Start Chat</a></h3>
+            <hr>
         </div>
     </ion-content>
 </ion-view>

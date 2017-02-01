@@ -5,13 +5,17 @@
               <img src="img/default.png">
               <h2>{{ac.user.firstName + ' ' + ac.user.lastName}}</h2>
               <p>
-                  {{ac.user.email}}
+                  <span class="item-text-wrap">{{ac.user.email}}</span>
                   <span ng-if="ac.verified" class="balanced ion-checkmark-circled"> Verified</span>
-                  <span ng-if="!ac.verified" class="assertive ion-alert-circled" ng-click="ac.verify()" style="cursor: pointer"> Verify now</span>
+                  <span ng-if="!ac.verified" class="assertive ion-alert-circled" ng-click="ac.emailVerify()" style="cursor: pointer"> Verify now</span>
               </p>
           </div>
       </div>
       <div class="list">
+          <label class="item item-input item-stacked-label">
+              <span class="input-label">Status</span>
+              <textarea ng-model="status.$value">{{status.$value}}</textarea>
+          </label>
           <a class="item item-icon-right" style="cursor: pointer" ng-click="ac.changeEmailModal.show()">
               Change Email
               <i class="icon ion-email"></i>
@@ -34,27 +38,31 @@
                   <h1 class="title">Change Email</h1>
               </ion-header-bar>
               <ion-content class="padding">
-                 <form name="emailChangeForm" novalidate ng-submit="!emailChangeForm.$valid || ac.changeEmail(ac.changeEmail.email)">
+                 <form name="emailChangeForm" novalidate ng-submit="!emailChangeForm.$valid || ac.emailChange(ac.changeEmail.email, ac.changeEmail.password)">
+
                      <div class="list">
+
                          <label class="item item-input">
-                             <input type="email" placeholder="Email*" ng-model="ac.changeEmail.email" name="email" required
+                             <input type="email" placeholder="New Email*" ng-model="ac.changeEmail.email" name="email" required
                                     ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i">
                          </label>
                          <div ng-messages="emailChangeForm.email.$error" ng-if="emailChangeForm.email.$error && ac.submit" class="assertive" role="alert">
                              <span ng-message="required">Email is required!</span>
                              <span ng-message="pattern">Email is not valid!</span>
                          </div>
+                         <br>
 
-                         <label class="item item-input">
-                             <input type="email" placeholder="Confirm email*" ng-model="ac.changeEmail.confirm" name="confirm"  required
-                                    ng-pattern="{{ac.changeEmail.email}}">
-                         </label>
-                         <div ng-messages="emailChangeForm.confirm.$error" ng-if="emailChangeForm.confirm.$error && ac.submit" class="assertive" role="alert">
-                             <span ng-message="required">Confirm email is required!</span>
-                             <span ng-message="pattern">Confirm email is not matched !</span>
+                         <div class="item item-input item-icon-right">
+                             <input type="{{ac.inputType}}" placeholder="Password*" ng-model="ac.changeEmail.password" name="password" class="col-90" required>
+                             <i class="icon ion-eye-disabled" ng-click="ac.inputType = 'password'" ng-if="ac.inputType == 'text'"></i>
+                             <i class="icon ion-eye" ng-click="ac.inputType = 'text'" ng-if="ac.inputType == 'password'"></i>
                          </div>
+                         <div ng-messages="emailChangeForm.password.$error" ng-if="emailChangeForm.password.$error && ac.submit" class="assertive" role="alert">
+                             <span ng-message="required">Password is required!</span>
+                         </div>
+                         <br>
 
-                         <div class="item">
+                         <div>
                              <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Email</button>
                              <br>
                              <button type="button" class="button button-block" ng-click="ac.changeEmailModal.hide();">Cancel</button>
@@ -72,12 +80,28 @@
                   <h1 class="title">Change password</h1>
               </ion-header-bar>
               <ion-content class="padding">
-                  <form name="passwordChangeForm" novalidate ng-submit="!passwordChangeForm.$valid || ac.changePassword(ac.changePassword.password)">
+
+                  <form name="passwordChangeForm" novalidate
+                        ng-submit="!passwordChangeForm.$valid || ac.changePassword(ac.changePassword.oldPassword, ac.changePassword.password)">
                       <div class="list">
+
                           <label class="item item-input">
-                              <input type="password" placeholder="Password*" ng-model="ac.changePassword.password" name="password" required
-                                     ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/" ng-minlength="6" ng-maxlength="64">
+                              <input type="password" placeholder="Old password*" ng-model="ac.changePassword.oldPassword" name="oldPassword" required>
                           </label>
+                          <div ng-messages="passwordChangeForm.oldPassword.$error" ng-if="passwordChangeForm.oldPassword.$error && ac.submit" class="assertive" role="alert">
+                              <span ng-message="required">Old password is required!</span>
+                          </div>
+                          <br>
+
+                          <div class="item item-input item-icon-right">
+                              <input type="{{ac.inputType}}" placeholder="Password*" ng-model="ac.changePassword.password" name="password" required
+                                     ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/"
+                                     ng-minlength="6" ng-maxlength="64" class="col-90">
+                              <i class="icon ion-eye-disabled" ng-click="ac.inputType = 'password'" ng-if="ac.inputType == 'text'"></i>
+                              <i class="icon ion-eye" ng-click="ac.inputType = 'text'" ng-if="ac.inputType == 'password'"></i>
+                          </div>
+
+
                           <div ng-messages="passwordChangeForm.password.$error" ng-if="passwordChangeForm.password.$error && ac.submit" class="assertive" role="alert">
                               <span ng-message="required">Password is required!</span>
                               <span ng-message="minlength">Password is too short!</span>
@@ -86,17 +110,9 @@
                                 and should contain one number, one character and one special
                                 character</span>
                           </div>
+                          <br>
 
-                          <label class="item item-input">
-                              <input type="password" placeholder="Confirm password*" ng-model="ac.changePassword.confirm" name="confirm"  required
-                                     ng-pattern="{{ac.changePassword.password}}">
-                          </label>
-                          <div ng-messages="passwordChangeForm.confirm.$error" ng-if="passwordChangeForm.confirm.$error && ac.submit" class="assertive" role="alert">
-                              <span ng-message="required">Confirm password is required!</span>
-                              <span ng-message="pattern">Confirm password is not matched !</span>
-                          </div>
-
-                          <div class="item">
+                          <div>
                               <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Password</button>
                               <br>
                               <button type="button" class="button button-block" ng-click="ac.changePasswordModal.hide();">Cancel</button>
@@ -106,5 +122,33 @@
               </ion-content>
           </ion-modal-view>
       </script>
+
+      <!-- Change Status Madal-->
+      <script id="change-status.html" type="text/ng-template">
+          <ion-modal-view>
+              <ion-header-bar>
+                  <h1 class="title">Change Status</h1>
+              </ion-header-bar>
+              <ion-content class="padding">
+                  <form name="statusChangeForm" novalidate ng-submit="!statusChangeForm.$valid || ac.changeStatus(ac.changeStatus.status)">
+                      <div class="list">
+                          <label class="item item-input">
+                              <input type="text" placeholder="Status*" ng-model="ac.changeStatus.status" name="status" required >
+                          </label>
+                          <div ng-messages="statusChangeForm.status.$error" ng-if="statusChangeForm.status.$error && ac.submit" class="assertive" role="alert">
+                              <span ng-message="required">Status is required!</span>
+                          </div>
+
+                          <div class="item">
+                              <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Password</button>
+                              <br>
+                              <button type="button" class="button button-block" ng-click="ac.changeStatusModal.hide();">Cancel</button>
+                          </div>
+                      </div>
+                  </form>
+              </ion-content>
+          </ion-modal-view>
+      </script>
+
   </ion-content>
 </ion-view>

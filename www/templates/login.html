@@ -17,15 +17,20 @@
                     <span ng-message="pattern">Email is not valid!</span>
                 </div>
                 <br>
-                <label class="item item-input">
-                    <input type="password" placeholder="Password *" ng-model="lc.password" ng-required="true" name="password"
+
+                <div class="item item-input item-icon-right" ng-init="lc.inputType = 'password'">
+                    <input type="{{lc.inputType}}" placeholder="Password *" ng-model="lc.password" ng-required="true" name="password"
                            ng-click="lc.submit = false" ng-minlength="6" ng-maxlength="64">
-                </label>
+                    <i class="icon ion-eye-disabled" ng-click="lc.inputType = 'password'" ng-if="lc.inputType == 'text'"></i>
+                    <i class="icon ion-eye" ng-click="lc.inputType = 'text'" ng-if="lc.inputType == 'password'"></i>
+                </div>
                 <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$error && lc.submit" class="assertive" role="alert">
                     <span ng-message="required">Password is required!</span>
                     <span ng-message="minlength">Password too short!</span>
                     <span ng-message="maxlength">Password too long!</span>
                 </div>
+                <br>
+
                 <button type="submit" class="button button-block button-positive" ng-click="lc.submit = true">Login</button>
                 <p class="text-right"><a ng-click="lc.resetPassword()" style="cursor: pointer">Forgot password?</a></p>
             </form>

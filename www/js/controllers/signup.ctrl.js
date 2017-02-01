@@ -55,12 +55,12 @@ function signupCtrl($state, firebaseService, $localForage, $timeout, currentUser
                         console.log('cordova');
                         document.addEventListener("deviceready", onDeviceReady, false);
                         function onDeviceReady() {
-                            cordova.plugins.snackbar('A verification mail is sent to your email!', 'INDEFINITE', "Dismiss", function () {
+                            cordova.plugins.snackbar('A verification mail is sent to your email!', 'SHORT', "", function () {
                                 console.log('Dismiss Button Clicked');
                             });
                         }
                     }else{
-                        alert(data.message);
+                        alert('A verification mail is sent to your email!');
                     }
                 }, function(error) {
                     if(window.cordova) {

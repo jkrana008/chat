@@ -42,10 +42,14 @@
                 </div>
                 <br>
 
-                <label class="item item-input">
-                    <input type="password" placeholder="Password *" ng-model="signup.password" ng-required="true" ng-click="signup.submit = false"
-                    ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/" ng-minlength="6" ng-maxlength="64" name="password">
-                </label>
+                <div class="item item-input item-icon-right" ng-init="signup.inputType = 'password'">
+                    <input type="{{signup.inputType}}" placeholder="Password *" ng-model="signup.password" ng-required="true" ng-click="signup.submit = false"
+                    ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/"
+                           ng-minlength="6" ng-maxlength="64" name="password">
+
+                    <i class="icon ion-eye-disabled" ng-click="signup.inputType = 'password'" ng-if="signup.inputType == 'text'"></i>
+                    <i class="icon ion-eye" ng-click="signup.inputType = 'text'" ng-if="signup.inputType == 'password'"></i>
+                </div>
 
                 <div ng-messages="signUpForm.password.$error" ng-if="signUpForm.password.$error && signup.submit" role="alert" class="assertive">
                     <span ng-message="required">Password is required!</span>

@@ -7,13 +7,17 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
             usersArray : firebaseService.usersArray,
             submit : false,
             logIn : logIn,
-            resetPassword : resetPassword
+            resetPassword : resetPassword,
     });
 
     activate();
 
     function activate() {
-
+        $ionicLoading.show({
+            template: 'Loading...',
+            hideOnStateChange : true,
+        })
+       
         firebase.auth().onAuthStateChanged(function(user) {
             
             if (user) {
@@ -23,11 +27,11 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
                         $rootScope.$broadcast('loggedIn');
                         $state.go('tab.friends');
                     })
-            } else {
-                console.log('not Logged IN');
+            }else{
+                $ionicLoading.hide();
             }
         });
-
+        
 
         if(window.cordova) {
             document.addEventListener("deviceready", onReady, false);
@@ -51,7 +55,6 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
             });
 
             $scope.$on('loggedIn', function () {
-                console.log('loggedIn');
                     firebaseService.updateToken($rootScope.deviceToken);
             });
         }
@@ -59,21 +62,14 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
     }
 
 
-
-    // $localForage.getItem('currentUser').then(function(data){
-    //     if(data!=null) {
-    //         currentUser.info = data;
-    //         $rootScope.$broadcast('loggedIn');
-    //         $state.go('tab.friends');
-    //     }
-    // });
-
-    
-
-
-
     function logIn(email, password){
         if(email && password) {
+
+            $ionicLoading.show({
+                template: 'Loading...',
+                hideOnStateChange : true,
+            })
+
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(success, error);
             function success(data) {
@@ -82,14 +78,6 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
                 $localForage.setItem('currentUser',user);
 
                 $rootScope.$broadcast('loggedIn');
-                
-                // if(window.cordova){
-                //     FCMPlugin.getToken(function (token) {
-                //         lc.rootRef.child('users/' + user.userId).update({
-                //             deviceToken : token
-                //         });
-                //     })
-                // }
 
                 lc.email = lc.password  = '';
                 $state.go('tab.friends');
@@ -97,13 +85,13 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
             };
 
             function error(data) {
-                console.log('error');
+
+                $ionicLoading.hide();
+
                 if(window.cordova) {
-                    console.log('cordova');
                     document.addEventListener("deviceready", onDeviceReady, false);
                     function onDeviceReady() {
                         cordova.plugins.snackbar(data.message, 'INDEFINITE', "Dismiss", function () {
-                            console.log('Dismiss Button Clicked');
                         });
                     }
                 }else{
