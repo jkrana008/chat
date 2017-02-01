@@ -2,7 +2,6 @@ angular.module('starter')
     .controller('friendsCtrl', friendsCtrl);
 
 function friendsCtrl($state, currentUser, firebaseService, $localForage, $interval, $rootScope, $scope){
-    
     var friends = angular.extend(this, {
         user : currentUser.info,
         friendsList : firebaseService.usersArray,

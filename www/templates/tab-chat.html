@@ -15,8 +15,9 @@
                 <div class="item-text-wrap" style="width:auto; max-width: 80%; float:left; border:none; padding:5px" ng-if="msg.receiverID === chat.senderID && msg.receiverID != msg.senderID">
                     <p style="font-size: 10px" class="text-left">
                         {{msg.time |timeFilter| date:'mediumTime'}}
-                    </>
-                    <p class="item" style="font-size: 14px; color: #4F8A10; background-color: #DFF2BF; border-radius:5px">
+                    </p>
+                    <p class="text-right" style="border: 5px solid; margin: auto 90% 0 0; border-color: transparent transparent #DFF2BF #DFF2BF; "></p>
+                    <p class="item" style="font-size: 14px; color: #4F8A10; background-color: #DFF2BF; border-radius:0px 5px 5px 5px; border: none">
                         {{msg.text}}
                     </p>
                 </div>
@@ -30,8 +31,11 @@
 
     <ion-footer-bar>
         <div class="bar bar-footer"  style="border-top:2px solid lightgrey; border-bottom:2px solid lightgrey; padding:0 10px 0 10px">
-            <input type="text" placeholder="Send a message...." class="item-input col-90" ng-model="chat.message" ng-keypress="$event.keyCode == 13 && chat.sendMessage(chat.message)">
-            <button type="button" class="button pull-right" ng-click="chat.sendMessage(chat.message)" style="margin: -5px 0 0 0; background: #fff;">
+            <input type="text" placeholder="Send a message...." class="item-input col-90" ng-model="chat.message"
+                   ng-keypress="$event.keyCode == 13 && chat.sendMessage(chat.message)" auto-focus autofocus>
+
+            <button type="button" class="button pull-right" ng-click="chat.sendMessage(chat.message)"
+                    style="margin: -5px 0 0 0; background: #fff;">
                 <i class="icon ion-android-send positive"></i>
             </button>
         </div>

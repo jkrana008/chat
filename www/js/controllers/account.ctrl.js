@@ -1,27 +1,25 @@
 angular.module('starter')
     .controller('accountCtrl', accountCtrl);
 
-function accountCtrl(currentUser, firebaseService, $localForage, $state, $templateCache, $ionicModal, $scope, $firebaseObject) {
+function accountCtrl(currentUser, firebaseService, $localForage, $state, $templateCache, $ionicModal, $scope, $firebaseObject, $ionicLoading) {
 
     var ac = angular.extend(this, {
-        signOut : signOut,
-        user : currentUser.info,
-        verified : firebase.auth().currentUser.emailVerified,
-        submit : false,
-        emailVerify : emailVerify,
-        emailChange : emailChange,
-        changePassword : changePassword,
-        changeStatus : changeStatus,
-        inputType : "password"
+        signOut: signOut,
+        user: currentUser.info,
+        verified: firebase.auth().currentUser.emailVerified,
+        submit: false,
+        emailVerify: emailVerify,
+        emailChange: emailChange,
+        changePassword: changePassword,
     });
 
     activate();
 
     function activate() {
-
-        var rootRef    = firebase.database().ref().child('users/' + currentUser.info.userId + '/status');
-        var rootObj   =  $firebaseObject(rootRef);
-        rootObj.$bindTo($scope,"status");
+        // Change Status
+        var rootRef = firebase.database().ref().child('users/' + currentUser.info.userId + '/status');
+        var rootObj = $firebaseObject(rootRef);
+        rootObj.$bindTo($scope, "status");
 
         $ionicModal.fromTemplateUrl('change-email.html', {
             scope: $scope,
@@ -29,47 +27,39 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
         }).then(function (modal) {
             ac.changeEmailModal = modal;
         });
-        
-        $ionicModal.fromTemplateUrl('change-password.html',{
-            scope : $scope,
-            animation : 'slide-in-up'
+
+        $ionicModal.fromTemplateUrl('change-password.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
         }).then(function (modal) {
             ac.changePasswordModal = modal;
         });
 
-        $ionicModal.fromTemplateUrl('change-status.html',{
-            scope : $scope,
-            animation : 'slide-in-up'
-        }).then(function (modal) {
-            ac.changeStatusModal = modal;
-        })
-        
     }
 
     function signOut() {
         firebase.auth().signOut().then(function () {
-
-            currentUser = {};
+            delete currentUser['info'];
             $localForage.clear();
             $templateCache.removeAll();
 
             firebaseService.rootRef.child('users/' + ac.user.userId).update({
-                deviceToken : ''
+                deviceToken: ''
             });
 
             $state.go('login');
 
-            if(window.cordova) {
+            if (window.cordova) {
                 document.addEventListener("deviceready", onDeviceReady, false);
                 function onDeviceReady() {
-                    cordova.plugins.snackbar("Log out successful", 'SHORT',"", function () {
+                    cordova.plugins.snackbar("Log out successful", 'SHORT', "", function () {
                     })
                 }
-            }else{
+            } else {
                 alert("Log out successful");
             }
         }, function (error) {
-            if(window.cordova) {
+            if (window.cordova) {
                 console.log('cordova');
                 document.addEventListener("deviceready", onDeviceReady, false);
                 function onDeviceReady() {
@@ -77,7 +67,7 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                         console.log('Dismiss Button Clicked');
                     });
                 }
-            }else{
+            } else {
                 alert(error.message);
             }
         });
@@ -86,6 +76,11 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
     }
 
     function emailVerify() {
+
+        $ionicLoading.show({
+            template: 'Sending verification mail....',
+        });
+
         var user = firebase.auth().currentUser;
         if (!user.emailVerified) {
             user.sendEmailVerification().then(function () {
@@ -99,6 +94,8 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                 } else {
                     alert('Verification email sent!');
                 }
+                $ionicLoading.hide();
+
             }, function (error) {
                 if (window.cordova) {
                     document.addEventListener("deviceready", onDeviceReady, false);
@@ -110,15 +107,21 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                 } else {
                     alert('Unable to send verification email. Please contact the developer');
                 }
+
+                $ionicLoading.hide();
+
             });
-        }else{
+        } else {
             ac.verified = user.emailVerified;
         }
     }
 
     function emailChange(email, password) {
 
-        if(ac.user.email != email) {
+        if (ac.user.email != email) {
+            $ionicLoading.show({
+                template: 'Changing email....',
+            });
 
             var user = firebase.auth().currentUser;
 
@@ -127,9 +130,11 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                 password
             );
 
-            user.reauthenticate(credential).then(function() {
+            user.reauthenticate(credential).then(function () {
 
                 user.updateEmail(email).then(function () {
+                    $ionicLoading.hide();
+
                     if (window.cordova) {
                         document.addEventListener("deviceready", onDeviceReady, false);
                         function onDeviceReady() {
@@ -140,12 +145,16 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                         alert("Email has been changed");
                     }
 
+                    ac.changeEmailModal.hide();
+
                     firebaseService.rootRef.child('users/' + ac.user.userId).update({
                         email: email
                     });
 
-                    ac.changeEmailModal.hide();
                 }, function (error) {
+
+                    $ionicLoading.hide();
+
                     if (window.cordova) {
                         document.addEventListener("deviceready", onDeviceReady, false);
                         function onDeviceReady() {
@@ -160,50 +169,57 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
 
                 ac.changeEmail = {};
 
-            }, function(error) {
-                // An error happened.
-                if(window.cordova) {
+            }, function (error) {
+                // An error happened
+                $ionicLoading.hide();
+
+                if (window.cordova) {
                     document.addEventListener("deviceready", onDeviceReady, false);
                     function onDeviceReady() {
-                    cordova.plugins.snackbar(error.message, 'INDEFINITE', "Dismiss", function () {
-                    });
+                        cordova.plugins.snackbar(error.message, 'INDEFINITE', "Dismiss", function () {
+                        });
+                    }
+                } else {
+                    alert(error.message);
                 }
-            }else{
-                alert(error.message);
-            }
-        });
+            });
 
-        }else {
+        } else {
             alert('New email should be different from current email');
         }
 
         ac.submit = false;
     }
 
-    function changePassword(oldPassword, password){
+    function changePassword(oldPassword, password) {
 
+        $ionicLoading.show({
+            template: 'Changing password....',
+        });
         var user = firebase.auth().currentUser;
         var credential = firebase.auth.EmailAuthProvider.credential(
             ac.user.email,
             oldPassword
         );
-        user.reauthenticate(credential).then(function() {
+        user.reauthenticate(credential).then(function () {
             // User re-authenticated.
-            user.updatePassword(password).then(function() {
-                if(window.cordova) {
-                    console.log('cordova');
+            user.updatePassword(password).then(function () {
+                $ionicLoading.hide();
+
+                if (window.cordova) {
                     document.addEventListener("deviceready", onDeviceReady, false);
                     function onDeviceReady() {
-                        cordova.plugins.snackbar("Your password has been changed!", 'SHORT', "", function () {
+                        cordova.plugins.snackbar("Password has been changed!", 'SHORT', "", function () {
                         });
                     }
-                }else{
-                    alert("Your password has been changed!");
+                } else {
+                    alert("Password has been changed!");
                 }
                 ac.changePasswordModal.hide();
 
-            }, function(error) {
-                if(window.cordova) {
+            }, function (error) {
+                $ionicLoading.hide();
+                if (window.cordova) {
                     console.log('cordova');
                     document.addEventListener("deviceready", onDeviceReady, false);
                     function onDeviceReady() {
@@ -211,7 +227,7 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                             console.log('Dismiss Button Clicked');
                         });
                     }
-                }else{
+                } else {
                     alert(error.message);
                 }
                 ac.changePasswordModal.hide();
@@ -220,9 +236,11 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
             ac.changePassword = {};
             ac.submit = false;
 
-        }, function(error) {
+        }, function (error) {
             // An error happened.
-            if(window.cordova) {
+            $ionicLoading.hide();
+
+            if (window.cordova) {
                 console.log('cordova');
                 document.addEventListener("deviceready", onDeviceReady, false);
                 function onDeviceReady() {
@@ -230,45 +248,10 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                         console.log('Dismiss Button Clicked');
                     });
                 }
-            }else{
+            } else {
                 alert(error.message);
             }
         });
     }
 
-    // Changing Status
-    function changeStatus(status){
-        firebaseService.rootRef.child('users/' + ac.user.userId).update({
-            status : status
-        }).then(function(){
-            if(window.cordova) {
-                console.log('cordova');
-                document.addEventListener("deviceready", onDeviceReady, false);
-                function onDeviceReady() {
-                    cordova.plugins.snackbar("Your status has been changed!", 'INDEFINITE', "Dismiss", function () {
-                        console.log('Dismiss Button Clicked');
-                    });
-                }
-            }else{
-                alert("Your status has been changed!");
-            }
-
-            ac.changeStatusModal.hide();
-        },function(error){
-            if(window.cordova) {
-                console.log('cordova');
-                document.addEventListener("deviceready", onDeviceReady, false);
-                function onDeviceReady() {
-                    cordova.plugins.snackbar(error.message, 'INDEFINITE', "Dismiss", function () {
-                        console.log('Dismiss Button Clicked');
-                    });
-                }
-            }else{
-                alert(error.message);
-            }
-            ac.changeStatusModal.hide();
-        });
-        ac.changeStatus = {};
-        ac.submit = false;
-    }
 }

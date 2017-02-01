@@ -1,7 +1,7 @@
 angular.module('starter')
     .controller('signupCtrl', signupCtrl);
 
-function signupCtrl($state, firebaseService, $localForage, $timeout, currentUser, $rootScope) {
+function signupCtrl($state, firebaseService, $localForage, $timeout, currentUser, $rootScope, $ionicLoading) {
 
     var signup = this;
     signup.rootRef = firebaseService.rootRef;
@@ -12,6 +12,11 @@ function signupCtrl($state, firebaseService, $localForage, $timeout, currentUser
     function signUp(firstName, lastName, email, password) {
 
         if(firstName && lastName && email && password){
+            $ionicLoading.show({
+                template: 'Loading...',
+                hideOnStateChange : true,
+            })
+
             firebase.auth().createUserWithEmailAndPassword(email, password).then(success, error);
 
             function success(data) {
@@ -84,6 +89,8 @@ function signupCtrl($state, firebaseService, $localForage, $timeout, currentUser
             };
 
             function error(data){
+                $ionicLoading.hide();
+
                 document.addEventListener("deviceready", onDeviceReady, false);
                 function onDeviceReady() {
                     cordova.plugins.snackbar(data.message, 'INDEFINITE', "Dismiss", function(){

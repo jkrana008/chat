@@ -1,5 +1,17 @@
 angular.module('starter')
-    .controller('chatCtrl', chatCtrl);
+    .controller('chatCtrl', chatCtrl)
+    .directive('autoFocus', function() {
+        return {
+            restrict: 'AEC',
+            link: function(scope, element, attrs)
+            {
+                element.bind('blur', function()
+                {
+                    element[0].focus();
+                });
+            }
+        }
+    });
 
 function chatCtrl($scope, $stateParams, currentUser, firebaseService, $localForage, $interval, $http) {
 
@@ -15,6 +27,7 @@ function chatCtrl($scope, $stateParams, currentUser, firebaseService, $localFora
 
     function sendMessage(message) {
         if (message) {
+
             var temp = {
                 senderID: chat.senderID,
                 receiverID: chat.receiverID,

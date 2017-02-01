@@ -17,9 +17,8 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
             template: 'Loading...',
             hideOnStateChange : true,
         })
-       
+
         firebase.auth().onAuthStateChanged(function(user) {
-            
             if (user) {
                 lc.usersArray.$loaded()
                     .then(function () {
@@ -66,7 +65,7 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
         if(email && password) {
 
             $ionicLoading.show({
-                template: 'Loading...',
+                template: 'Longing...',
                 hideOnStateChange : true,
             })
 
@@ -139,11 +138,27 @@ function loginCtrl($state, firebaseService, $localForage, $timeout, currentUser,
             if(res) {
                 firebase.auth().sendPasswordResetEmail(res).then(function () {
                     $ionicLoading.hide();
-                    console.log("email sent");
+                    if(window.cordova) {
+                        document.addEventListener("deviceready", onDeviceReady, false);
+                        function onDeviceReady() {
+                            cordova.plugins.snackbar("A password reset link is sent to your email", 'SHORT', "", function () {
+                            });
+                        }
+                    }else{
+                        alert("A password reset link is sent to your email");
+                    }
                 }, function (error) {
                     $ionicLoading.hide();
-                    console.log("error", error);
                     // An error happened.
+                    if(window.cordova) {
+                        document.addEventListener("deviceready", onDeviceReady, false);
+                        function onDeviceReady() {
+                            cordova.plugins.snackbar(error.message, 'INDEFINITE', "Dismiss", function () {
+                            });
+                        }
+                    }else{
+                        alert(error.message);
+                    }
                 });
             }
         });

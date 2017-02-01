@@ -8,9 +8,6 @@ function friendsFilter() {
         return input.filter(function(item){
             if(item.userId != userId){
                 return item;
-            }else {
-                item.lastName = '(You)';
-                return item;
             }
         })
     }

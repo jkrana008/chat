@@ -1,5 +1,5 @@
 <ion-view view-title="Account">
-  <ion-content>
+  <ion-content class="has-header">
       <div class="list">
           <div class="item item-thumbnail-left">
               <img src="img/default.png">
@@ -7,7 +7,10 @@
               <p>
                   <span class="item-text-wrap">{{ac.user.email}}</span>
                   <span ng-if="ac.verified" class="balanced ion-checkmark-circled"> Verified</span>
-                  <span ng-if="!ac.verified" class="assertive ion-alert-circled" ng-click="ac.emailVerify()" style="cursor: pointer"> Verify now</span>
+                  <button ng-if="!ac.verified" class="button assertive button-small" ng-click="ac.emailVerify()">
+                      <i class="ion-alert-circled"></i>
+                      Verify now
+                  </button>
               </p>
           </div>
       </div>
@@ -52,7 +55,7 @@
                          </div>
                          <br>
 
-                         <div class="item item-input item-icon-right">
+                         <div class="item item-input item-icon-right" ng-init="ac.inputType = 'password'">
                              <input type="{{ac.inputType}}" placeholder="Password*" ng-model="ac.changeEmail.password" name="password" class="col-90" required>
                              <i class="icon ion-eye-disabled" ng-click="ac.inputType = 'password'" ng-if="ac.inputType == 'text'"></i>
                              <i class="icon ion-eye" ng-click="ac.inputType = 'text'" ng-if="ac.inputType == 'password'"></i>
@@ -93,7 +96,7 @@
                           </div>
                           <br>
 
-                          <div class="item item-input item-icon-right">
+                          <div class="item item-input item-icon-right" ng-init="ac.inputType = 'password'">
                               <input type="{{ac.inputType}}" placeholder="Password*" ng-model="ac.changePassword.password" name="password" required
                                      ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/"
                                      ng-minlength="6" ng-maxlength="64" class="col-90">
@@ -116,33 +119,6 @@
                               <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Password</button>
                               <br>
                               <button type="button" class="button button-block" ng-click="ac.changePasswordModal.hide();">Cancel</button>
-                          </div>
-                      </div>
-                  </form>
-              </ion-content>
-          </ion-modal-view>
-      </script>
-
-      <!-- Change Status Madal-->
-      <script id="change-status.html" type="text/ng-template">
-          <ion-modal-view>
-              <ion-header-bar>
-                  <h1 class="title">Change Status</h1>
-              </ion-header-bar>
-              <ion-content class="padding">
-                  <form name="statusChangeForm" novalidate ng-submit="!statusChangeForm.$valid || ac.changeStatus(ac.changeStatus.status)">
-                      <div class="list">
-                          <label class="item item-input">
-                              <input type="text" placeholder="Status*" ng-model="ac.changeStatus.status" name="status" required >
-                          </label>
-                          <div ng-messages="statusChangeForm.status.$error" ng-if="statusChangeForm.status.$error && ac.submit" class="assertive" role="alert">
-                              <span ng-message="required">Status is required!</span>
-                          </div>
-
-                          <div class="item">
-                              <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Password</button>
-                              <br>
-                              <button type="button" class="button button-block" ng-click="ac.changeStatusModal.hide();">Cancel</button>
                           </div>
                       </div>
                   </form>

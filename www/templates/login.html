@@ -10,7 +10,7 @@
             <form name="loginForm" role="form" novalidate ng-submit="!loginForm.$valid || lc.logIn(lc.email, lc.password)">
                 <label class="item item-input">
                     <input type="email" placeholder="Email *" ng-model="lc.email" name="email" ng-required="true" ng-click="lc.submit = false"
-                           ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i">
+                           ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" autofocus>
                 </label>
                 <div ng-messages="loginForm.email.$error" ng-if="loginForm.email.$error && lc.submit" class="assertive" role="alert">
                     <span ng-message="required">Email is required!</span>
