@@ -4,11 +4,11 @@
             <div class="item" ng-repeat="msg in chat.chatsArray | chatFilter:chat.senderID:chat.receiverID track by $index" style="border:none; padding:0; margin:0">
 
                 <div  class="item-text-wrap" style="width:auto; max-width: 80%; float:right; border:none; padding:5px" ng-if="msg.senderID == chat.senderID">
-                    <p style="font-size: 10px;" class="text-right">
+                    <p style="font-size: 10px;" class="text-right; margin:0">
                         {{msg.time |timeFilter| date:'mediumTime'}}
                     </p>
-                    <p class="text-right" style="border: 3px solid; margin: auto 100% 0px 0px; border-color: transparent transparent #BDE5F8 #BDE5F8; "></p>
-                    <p  style="font-size: 14px; color: #BDE5F8; background-color: #BDE5F8; border-radius:0px 5px 5px 5px; padding:5px">
+                    <p style="border: 3px solid; margin: 0px 0px 0px 90%; border-color: transparent #BDE5F8 #BDE5F8 transparent; "></p>
+                    <p style="font-size: 14px; color: #00529B; background-color: #BDE5F8; border-radius:5px 0px 5px 5px; padding:5px">
                         {{msg.text}}
                     </p>
                 </div>
@@ -17,7 +17,7 @@
                     <p style="font-size: 10px" class="text-left">
                         {{msg.time |timeFilter| date:'mediumTime'}}
                     </p>
-                    <p class="text-right" style="border: 3px solid; margin: auto 100% 0px 0px; border-color: transparent transparent #DFF2BF #DFF2BF; "></p>
+                    <p style="border: 3px solid; margin: 0px 100% 0px 0px; border-color: transparent transparent #DFF2BF #DFF2BF; "></p>
                     <p style="font-size: 14px; color: #4F8A10; background-color: #DFF2BF; border-radius:0px 5px 5px 5px; padding:5px">
                         {{msg.text}}
                     </p>
