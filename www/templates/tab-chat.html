@@ -3,21 +3,35 @@
         <div class="list" style="padding:0;">
             <div class="item" ng-repeat="msg in chat.chatsArray | chatFilter:chat.senderID:chat.receiverID track by $index" style="border:none; padding:0; margin:0">
 
-                <div  class="item-text-wrap" style="width:auto; max-width: 80%; float:right; border:none; padding:5px" ng-if="msg.senderID == chat.senderID">
-                    <p style="font-size: 10px;" class="text-right; margin:0">
+                <!--Day Checker-->
+                <div class="card" style="margin: auto; width: 30%; text-align: center; background: #f2f2f2"  ng-if="(msg.time | dayFilter : 'ng-if' )">
+                    {{msg.time | dayFilter : 'body'}}
+                </div>
+
+                <!--Receiver-->
+                <div  class="item-text-wrap" style="width:auto; max-width: 80%; float:right; border:none; padding:5px; position: relative" ng-if="msg.senderID == chat.senderID">
+                    <!--Chat Time-->
+                    <p style="font-size: 10px; margin-bottom: -10px; text-align: right">
                         {{msg.time |timeFilter| date:'mediumTime'}}
                     </p>
-                    <p style="border: 3px solid; margin: 0px 0px 0px 90%; border-color: transparent #BDE5F8 #BDE5F8 transparent; "></p>
-                    <p style="font-size: 14px; color: #00529B; background-color: #BDE5F8; border-radius:5px 0px 5px 5px; padding:5px">
+                    <!--Chat Box Arrow-->
+                    <div style="border: 3px solid; margin: 0px 0px 0px 100%; border-color: transparent #BDE5F8 #BDE5F8 transparent;"></div>
+                    <!--Chat Box-->
+                    <p style="font-size: 14px; color: #00529B; background-color: #BDE5F8; border-radius:5px 0px 5px 5px;
+                            padding:5px; margin-right: -5px">
                         {{msg.text}}
                     </p>
                 </div>
 
+                <!--Sender-->
                 <div class="item-text-wrap" style="width:auto; max-width: 80%; float:left; border:none; padding:5px" ng-if="msg.receiverID === chat.senderID && msg.receiverID != msg.senderID">
-                    <p style="font-size: 10px" class="text-left">
+                    <!--Chat Time-->
+                    <p style="font-size: 10px; margin: auto auto -10px 5px" class="text-left">
                         {{msg.time |timeFilter| date:'mediumTime'}}
                     </p>
+                    <!--Chat Box Arrow-->
                     <p style="border: 3px solid; margin: 0px 100% 0px 0px; border-color: transparent transparent #DFF2BF #DFF2BF; "></p>
+                    <!--Chat Box-->
                     <p style="font-size: 14px; color: #4F8A10; background-color: #DFF2BF; border-radius:0px 5px 5px 5px; padding:5px">
                         {{msg.text}}
                     </p>

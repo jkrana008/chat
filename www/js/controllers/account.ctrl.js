@@ -120,7 +120,7 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
 
         if (ac.user.email != email) {
             $ionicLoading.show({
-                template: 'Changing email....',
+                template: 'Changing email....'
             });
 
             var user = firebase.auth().currentUser;
@@ -168,9 +168,11 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
                 });
 
                 ac.changeEmail = {};
+                ac.submit = false;
 
             }, function (error) {
                 // An error happened
+                ac.submit = false;
                 $ionicLoading.hide();
 
                 if (window.cordova) {
@@ -194,7 +196,7 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
     function changePassword(oldPassword, password) {
 
         $ionicLoading.show({
-            template: 'Changing password....',
+            template: 'Changing password....'
         });
         var user = firebase.auth().currentUser;
         var credential = firebase.auth.EmailAuthProvider.credential(
@@ -239,6 +241,7 @@ function accountCtrl(currentUser, firebaseService, $localForage, $state, $templa
         }, function (error) {
             // An error happened.
             $ionicLoading.hide();
+            ac.submit = false;
 
             if (window.cordova) {
                 console.log('cordova');

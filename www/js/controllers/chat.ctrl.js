@@ -15,19 +15,17 @@ angular.module('starter')
 
 function chatCtrl($scope, $stateParams, currentUser, firebaseService, $localForage, $interval, $http) {
 
-    var chat = this;
-    chat.receiverName = $stateParams.name;
-    chat.receiverID = $stateParams.id;
-    chat.senderID = currentUser.info.userId;
-    chat.chatsArray = firebaseService.chatsArray;
-
-
-    chat.sendMessage = sendMessage;
+    var chat = angular.extend(this, {
+        receiverName : $stateParams.name,
+        receiverID : $stateParams.id,
+        senderID : currentUser.info.userId,
+        chatsArray : firebaseService.chatsArray,
+        sendMessage : sendMessage,
+    });
 
 
     function sendMessage(message) {
         if (message) {
-
             var temp = {
                 senderID: chat.senderID,
                 receiverID: chat.receiverID,
@@ -69,5 +67,4 @@ function chatCtrl($scope, $stateParams, currentUser, firebaseService, $localFora
             chat.message = '';
         }
     }
-    ;
 }

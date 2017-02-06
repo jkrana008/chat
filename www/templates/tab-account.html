@@ -68,7 +68,7 @@
                          <div>
                              <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Email</button>
                              <br>
-                             <button type="button" class="button button-block" ng-click="ac.changeEmailModal.hide();">Cancel</button>
+                             <button type="button" class="button button-block" ng-click="ac.changeEmailModal.hide() && (ac.submit = false)">Cancel</button>
                          </div>
                      </div>
                  </form>
@@ -118,7 +118,7 @@
                           <div>
                               <button type="submit" class="button button-positive button-block" ng-click="ac.submit = true">Change Password</button>
                               <br>
-                              <button type="button" class="button button-block" ng-click="ac.changePasswordModal.hide();">Cancel</button>
+                              <button type="button" class="button button-block" ng-click="ac.changePasswordModal.hide() && (ac.submit = false)">Cancel</button>
                           </div>
                       </div>
                   </form>

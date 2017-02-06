@@ -4,7 +4,7 @@
             <a class="item item-avatar" ng-repeat="friend in chats.chatFriends | friendsFilter : chats.user.userId track by $index" ng-click="chats.chat(friend.firstName, friend.lastName, friend.userId)">
                 <img src="img/default.png">
                 <h2>{{friend.firstName + ' ' + friend.lastName}}</h2>
-                <p>{{friends.status}}</p>
+                <p>{{friend.status}}</p>
             </a>
         </div>
         <div class="card text-center"  ng-if="chats.chatFriends.length == 0" style="margin-top: 150px">
